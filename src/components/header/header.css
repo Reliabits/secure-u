@@ -1,0 +1,30 @@
+.link-color:hover {
+    font-family: 'Mina' !important;
+    color: blue !important;
+  }
+  .link-color {
+    font-family: 'Mina' !important;
+  }
+  .item-nav {
+    box-shadow: 5px 5px 10px rgba(163,177,198,0.5), -5px -5px 10px rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    border-radius: 15px;
+  }
+  .item-nav:hover {
+    box-shadow:
+      -10px -10px 15px rgba(255, 255, 255, 0.5),
+      10px 10px 15px rgba(70, 70, 70, 0.12),
+      inset -6px -6px 6px rgba(255, 255, 255, 0.5),
+      inset 2px 2px 2px rgba(70, 70, 70, 0.12);
+  }
+  .secure-logo{
+    font-family: 'Mina' !important;
+    color: blue !important;
+  }
+  .bg_color{
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(231,231,238,1) 35%, rgba(255,255,255,1) 100%);
+  }
+  .padding_nav{
+    padding-bottom: 15px !important;
+  }
