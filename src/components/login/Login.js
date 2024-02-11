@@ -7,7 +7,7 @@ function Login() {
   return (
    <> 
    <div className='container '>
-    <div className='row login_margin pb-5'>
+    <div className='row login_margin login-padding'>
         <div className='col-sm-4 mt-5 pt-5'>
             <h1 className='text-primary font-fa'>Login here</h1>
         <input type="email" className="form-control custom-input mb-4 font-fa mt-3 " placeholder="please enter your email" />
