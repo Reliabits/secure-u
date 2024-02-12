@@ -3,7 +3,9 @@ import React from 'react'
 function Genratepass() {
   return (
    <>
-   <h1>Genrate Password</h1>
+   <div className='text-center pt-5'>
+    <h1 className='font-fa text-primary '>Genrate Password</h1>
+   </div>
    </>
   )
 }
