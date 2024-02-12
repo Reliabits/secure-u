@@ -32,5 +32,29 @@
     font-family: 'Mina' !important;
 }
 .login-padding{
-  padding-bottom: 25rem !important;
+  padding-bottom: 22rem !important;
+}
+.register-padding{
+  padding-bottom: 15rem !important;
+}
+.reset-btn{
+  width: 145px !important;
+  box-shadow: 5px 5px 10px rgba(163,177,198,0.5), -5px -5px 10px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  border-radius: 15px;
+
+}
+.reset-btn:hover{
+  width: 145px !important;
+  border-radius: 7px;
+  box-shadow:
+  -10px -10px 15px rgba(255, 255, 255, 0.5),
+  10px 10px 15px rgba(70, 70, 70, 0.12),
+  inset -6px -6px 6px rgba(255, 255, 255, 0.5),
+  inset 2px 2px 2px rgba(70, 70, 70, 0.12);
+}
+.custom-forgot{
+  margin-left: 16px !important;
+  padding-top: 8px !important;
+  padding-bottom: 0px !important;
 }

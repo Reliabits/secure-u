@@ -7,7 +7,7 @@ function Register() {
   return (
    <>
       <div className='container '>
-    <div className='row login_margin pb-5'>
+    <div className='row  login_margin register-padding'>
         <div className='col-sm-5'>
             <h1 className='text-primary font-fa'>Please enter Your details to register</h1>
         <input type="email" className="form-control custom-input mb-4 font-fa mt-3" placeholder="please enter your valid email" />
@@ -16,7 +16,7 @@ function Register() {
         <input type="password" className="form-control custom-input  mb-4 font-fa" placeholder="Reminder" />
         <button className='btn login-btn mt-3 font-fa'>submit</button>
         </div>
-        <div className='col-sm-7 text-center'>
+        <div className='col-sm-7 text-end'>
             <img className='img-fluid' src={Registerpic} alt='login' />
         </div>
     </div>

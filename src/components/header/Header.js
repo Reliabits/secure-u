@@ -17,7 +17,7 @@ function Header() {
                                     <span className='item-nav px-4 mx-2'>  <Nav.Link href="#link" className='link-color'>Why Us</Nav.Link></span>
                                     <span className='item-nav px-4 mx-2'>  <Nav.Link href="#link" className='link-color'>Feature</Nav.Link></span>
                                     <span className='item-nav px-4 mx-2'>  <Nav.Link href="#link" className='link-color'>contact us</Nav.Link></span>
-                                    <span className='item-nav pt-2 px-4 mx-2'>  <span onClick={() => navigate("/Login")} className='link-color'>login</span></span>
+                                    <span className='item-nav pt-2 px-4 mx-2 '  onClick={() => navigate("/Login")} >  <span className='link-color'>login</span></span>
                                 </Nav>
                             </Navbar.Collapse>
                         </Container>

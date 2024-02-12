@@ -1,0 +1,26 @@
+.item-nav {
+    box-shadow: 5px 5px 10px rgba(163,177,198,0.5), -5px -5px 10px rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    border-radius: 15px;
+  }
+  .link-color:hover {
+    font-family: 'Mina' !important;
+    color: blue !important;
+  }
+  .link-color {
+    font-family: 'Mina' !important;
+  }
+  .nav-btn{
+    padding: 15px!important;
+  }
+  .custom-sidebar{
+    width: 13% !important;
+  }
+  .custom-bar{
+    font-size: 29px !important;
+    color: grey;
+    font-family: 'Mina' !important;
+  }
+  .dash-secure{
+    padding-right :100px !important
+  }
