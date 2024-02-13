@@ -11,7 +11,9 @@ function Homedashboard() {
         <>
             <div className='d-flex w-full h-screen'>
                 <div className='col-auto custom-sidebar'>
-                    <Sidebar />
+                <Sidebar>
+                 <p>Component 1</p>
+                 </Sidebar>
                 </div>
                <div>
                </div>

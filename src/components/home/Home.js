@@ -6,7 +6,7 @@ import WhyUS from '../whyus/WhyUS';
 function Home() {
   return (
     <>
-      <Header />
+      
       <div className='container cont-margin'>
         <div className='row row-top'>
           <div className='col-sm-6 custom_colmn'>
