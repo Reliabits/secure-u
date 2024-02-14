@@ -112,11 +112,9 @@
   padding: 15px !important;
   border-radius: 0rem !important;
   background: #e8e8e8 !important;
-  box-shadow:
-  -10px -10px 15px rgba(255, 255, 255, 0.5),
-  10px 10px 15px rgba(70, 70, 70, 0.12),
-  inset -6px -6px 6px rgba(255, 255, 255, 0.5),
-  inset 2px 2px 2px rgba(70, 70, 70, 0.12) !important;
+  box-shadow: 20px 20px 60px #c5c5c5,
+  -20px -20px 60px #ffffff !important;
+transition: 0.3s !important;
 }
 input[type="checkbox"]
 {

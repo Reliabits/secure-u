@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { ToastContainer,Bounce, toast } from 'react-toastify';
 import '../dashboard/dashboard.css'
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
@@ -6,7 +7,59 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import userEvent from '@testing-library/user-event';
+const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
+const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const numberList = '0123456789';
+const symbolsList = '!@#$%^&*()?';
 function Homedashboard() {
+    // genrate password 
+    const [genratePassword, setgenratePassword] = useState('');
+    const [lowerCase, setloweCase] = useState(false);
+    const [upperCase, setupperCase] = useState(false);
+    const [numbers, setNumbers] = useState(false);
+    const [symbols, setSymbols] = useState(false);
+    const [passwordLength, setpasswordLength] = useState(8);
+    // Genrate password
+    const copyPassword = async() => {
+        const copiedText = await navigator.clipboard.readText();
+        if (genratePassword.length){
+            navigator.clipboard.writeText(genratePassword);
+            toast.success('password copied to clipboard!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+                });
+        }
+    }
+    const passwordGenrate = () => {
+        let characterlist = "";
+        if(lowerCase){
+            characterlist += lowercaseList
+        }
+        if(upperCase){
+            characterlist += uppercaseList
+        }
+        if(numbers){
+            characterlist += numberList
+        }
+        if(symbols){
+            characterlist += symbolsList
+        }
+    let temPassword = '';
+    const characterlistLength = characterlist.length;
+    for(let i = 0; i<passwordLength; i++){
+        const characterIndex = Math.round(Math.random()* characterlistLength);
+        temPassword += characterlist.charAt(characterIndex);
+    }
+    setgenratePassword(temPassword);
+    }
     return (
         <>
             <div className='container-fluid'>
@@ -22,7 +75,7 @@ function Homedashboard() {
                 </div>
                 <div className='row mt-5'>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                        <Row className='vertical-height'>
+                        <Row className='vertical-height h-100'>
                             <Col sm={2} className='h-100'>
                                 <Nav variant="pills" className="flex-column mt-5">
                                     <Nav.Item className='item-nav reset-btn  mx-2 mb-4 py-2'>
@@ -97,17 +150,19 @@ function Homedashboard() {
                                         <div className='row mt-5'>
                                             <div className='col-sm-4'>
                                                 <div className="input-group mb-3">
-                                                    <div className="input-group-prepend custom-copy">
-                                                        <span className="input-group-text custom-group" id="basic-addon1">copy</span>
+                                                    <div className="input-group-prepend custom-copy"  onClick={copyPassword} >
+                                                        <span className="input-group-text custom-group"id="basic-addon1">copy</span>
+                                                        <ToastContainer />
                                                     </div>
-                                                    <input type="text" className="form-control custom-addpass" placeholder="passowrd" aria-label="Username" aria-describedby="basic-addon1"/>
+                                                    <input type="text" disabled className="form-control custom-addpass" value={genratePassword} aria-label="Username" aria-describedby="basic-addon1"/>
                                                 </div>
                                                 <h4 className='font-fa pt-3'>Customize your password</h4>
-                                              <span className='mt-3 d-flex'>  <input type='checkbox' /> <p className='font-fa lower-case'>Include lower case (a-z)</p></span>
-                                              <span className='d-flex'>  <input type='checkbox' /> <p className='font-fa lower-case'>Include Upar case (A-Z)</p></span>
-                                              <span className='d-flex'>  <input type='checkbox' /> <p className='font-fa lower-case'>Include number</p></span>
-                                              <span className='d-flex'>  <input type='checkbox' /> <p className='font-fa lower-case'>Include Symbols</p></span>
-                                              <button className='btn logout-btn'>Genrate password</button>
+                                              <span className='mt-3 d-flex'>  <input type='checkbox' checked={lowerCase} onChange={()=> setloweCase(!lowerCase)} /> <p className='font-fa lower-case'>Include lower case (a-z)</p></span>
+                                              <span className='d-flex'>  <input type='checkbox' checked={upperCase} onChange={()=> setupperCase(!upperCase)} /> <p className='font-fa lower-case'>Include upper case (A-Z)</p></span>
+                                              <span className='d-flex'>  <input type='checkbox' checked={numbers} onChange={()=> setNumbers(!numbers)}  /> <p className='font-fa lower-case'>Include number</p></span>
+                                              <span className='d-flex'>  <input type='checkbox'  checked={symbols} onChange={()=> setSymbols(!symbols)} /> <p className='font-fa lower-case'>Include Symbols</p></span>
+                                              <span className='d-flex'>  <input type='range' min={8} max={40} defaultValue={passwordLength} checked={passwordLength} onChange={(event)=>setpasswordLength(event.currentTarget.value)} /> &nbsp; <p className='font-fa lower-case'>{passwordLength}</p></span>
+                                              <button className='btn logout-btn' onClick={passwordGenrate}>Genrate password</button>
                                             </div>
                                         </div>
                                     </Tab.Pane>
