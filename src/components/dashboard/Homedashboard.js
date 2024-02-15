@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import userEvent from '@testing-library/user-event';
+
 const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
 const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const numberList = '0123456789';
@@ -21,8 +21,8 @@ function Homedashboard() {
     const [symbols, setSymbols] = useState(false);
     const [passwordLength, setpasswordLength] = useState(8);
     // Genrate password
-    const copyPassword = async() => {
-        const copiedText = await navigator.clipboard.readText();
+    const copyPassword = () => {
+        // const copiedText = await navigator.clipboard.readText();
         if (genratePassword.length){
             navigator.clipboard.writeText(genratePassword);
             toast.success('password copied to clipboard!', {
@@ -95,8 +95,8 @@ function Homedashboard() {
                                     </Nav.Item>
                                 </Nav>
                             </Col>
-                            <Col sm={10}>
-                                <Tab.Content>
+                            <Col sm={10} >
+                                <Tab.Content >
                                     {/* All items page */}
                                     <Tab.Pane eventKey="first">
                                         <div className='row mt-5'>
@@ -163,6 +163,21 @@ function Homedashboard() {
                                               <span className='d-flex'>  <input type='checkbox'  checked={symbols} onChange={()=> setSymbols(!symbols)} /> <p className='font-fa lower-case'>Include Symbols</p></span>
                                               <span className='d-flex'>  <input type='range' min={8} max={40} defaultValue={passwordLength} checked={passwordLength} onChange={(event)=>setpasswordLength(event.currentTarget.value)} /> &nbsp; <p className='font-fa lower-case'>{passwordLength}</p></span>
                                               <button className='btn logout-btn' onClick={passwordGenrate}>Genrate password</button>
+                                            </div>
+                                            <div className='col-sm-7 text-left'>
+                                                <h1 className='font-fa text-primary'> A Comprehensive Guide</h1>
+                                                <p className='font-fa add-pass-p'>In today's digital landscape, safeguarding your online accounts is of paramount importance. One fundamental step towards enhancing your security is crafting a robust password. Your web app generates passwords
+                                                 encompassing lowercase letters (a-z), uppercase letters (A-Z), numbers (0-9), and symbols (!@#$%^&*()?) <span className='text-secondary'>To elevate the strength of your password, consider the following guidelines 
+                                                  </span>
+                                                   <br/><span className='font-fa text-primary'>Length Matters:</span>Opt for longer passwords, as they inherently provide a higher level of security. Aim for a minimum of 12 characters to make it more resilient against brute-force attacks.
+                                                   <br/><span className='font-fa text-primary'>Avoid Common Words:</span>Refrain from using easily guessable words or phrases. This includes names, birthdays, and common dictionary words. Instead, opt for a combination of unrelated terms or create an acronym that is meaningful only to you.
+                                                   <br/><span className='font-fa text-primary'>Mix It Up:</span> Incorporate a diverse range of characters. Combine uppercase and lowercase letters, numbers, and symbols in a non-predictable manner. This complexity significantly fortifies your password.
+                                                   <br/><span className='font-fa text-primary'>Steer Clear of Patterns:</span>  Avoid using easily recognizable patterns such as "12345" or "password." These patterns are susceptible to simple password-cracking techniques.
+                                                   <br/><span className='font-fa text-primary'>Unique for Each Account:</span> While it may be tempting to reuse passwords across multiple accounts, it's a security risk. If one account gets compromised, others may follow suit. Use unique passwords for each account.
+                                                   <br/><span className='font-fa text-primary'>Use a Password Manager:</span> Consider using a reputable password manager to generate, store, and manage your passwords. This ensures that you can have unique, complex passwords for each account without the burden of memorization.
+                                                   
+                                                
+                                                   </p>
                                             </div>
                                         </div>
                                     </Tab.Pane>
