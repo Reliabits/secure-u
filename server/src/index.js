@@ -6,6 +6,7 @@ import http from "http";
 dotenv.config();
 import "./config.js";
 import Auth from "./routes/auth_routes.js";
+import passNote from "./routes/pass_note_routes.js";
 
 const app = express();
 
@@ -28,7 +29,8 @@ app.use(express.static("public"));
 //All APi's Endponits
 app.use(
   "/api/v1",
-  Auth
+  Auth,
+  passNote
 );
 
 app.use("*", (req, res) => {

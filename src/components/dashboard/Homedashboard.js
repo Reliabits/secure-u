@@ -4,6 +4,7 @@ import "../dashboard/dashboard.css";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { createPassword, listPassword, listPasswordUpdate } from "../../api/api";
 
 const lowercaseList = "abcdefghijklmnopqrstuvwxyz";
 const uppercaseList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -20,6 +21,13 @@ function Homedashboard() {
     const [sideopen, setSideopen] = useState(true);
     const [sidemblopen, setSidemblopen] = useState(true);
     const [passwordLength, setpasswordLength] = useState(8);
+    const [inputData, setInputData] = useState({})
+    const [loading, setLoading] = useState(false);
+    const [passwordList, setPasswordList] = useState([])
+    const [handleFetch, setHandleFetch] = useState(false)
+    const [handleUpdateId, setHandleUpdateId] = useState("")
+
+    const userData= JSON.parse(localStorage.getItem("userData"))
 
     useEffect(() => {
         function handleResize() {
@@ -75,6 +83,75 @@ function Homedashboard() {
         }
         setgenratePassword(temPassword);
     };
+
+    const handleGetPasswordList=async()=>{
+          try {
+            setLoading(true);
+            let result = await listPassword(userData?._id);
+            if(result?.data?.success){
+                setPasswordList(result.data.data)
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            toast.error(error?.response?.data?.error);
+          } finally {
+            setLoading(false);
+          }
+        }
+
+    useEffect(() => {
+        handleGetPasswordList()
+    }, [tabs,handleFetch]);
+    
+    
+    const handleChange = (event) => {
+        let { name, value } = event.target;
+        setInputData((prevUserData) => ({
+          ...prevUserData,
+          [name]: value,
+        }));
+    };
+    
+    
+    const handleSubmitPasswordCreate=async()=>{
+        if (!inputData.url || !inputData.password || !inputData.category || !inputData.userName) {
+            return  toast.error("Please fill all fields" )
+        }
+          try {
+            setLoading(true);
+            let result = await createPassword({...inputData,createdBy:userData._id});
+            toast.success(result?.data?.message);
+            setTabs(0)
+          } catch (error) {
+            console.error("Error:", error);
+            toast.error(error?.response?.data?.error);
+          } finally {
+            setLoading(false);
+          }
+        }
+
+
+    const handleSubmitPasswordUpdate=async(val)=>{
+          try {
+            setHandleUpdateId(val?._id)
+            setLoading(true);
+            let result = await listPasswordUpdate(val);
+            if(val.method=="delete"){
+                toast.success("deleted successfully");
+            }else{
+                toast.success(result?.data?.message);
+            }
+            setHandleFetch((prev)=>!prev)
+          } catch (error) {
+            console.error("Error:", error);
+            toast.error(error?.response?.data?.error);
+          } finally {
+            setLoading(false);
+          }
+        }
+
+
+
     return (
         <>
             <div className="container-fluid">
@@ -188,12 +265,15 @@ function Homedashboard() {
                             {tabs === 0 && (
                                 <>
                                     <div eventKey="first" className="">
-                                        <div className="row mt-5">
+                                      {passwordList.map((elm,index)=>{
+                                      return   <div className="row mt-5">
                                             <div className="col-sm-3">
-                                                <p className="font-fa">Your email</p>
+                                             {index==0 &&   <p className="font-fa">Your email</p>}
+                                                <p className="font-fa">{elm?.userName}</p>
                                             </div>
                                             <div className="col-sm-3 ">
-                                                <p className="font-fa">Your password</p>
+                                              {index==0 &&  <p className="font-fa">Your password</p>}
+                                                <p className="font-fa">{elm?.password}</p>
                                             </div>
                                             <div className="col-sm-3">
                                                 <ButtonGroup aria-label="Basic example">
@@ -204,10 +284,15 @@ function Homedashboard() {
                                             <div className="col-sm-3">
                                                 <ButtonGroup aria-label="Basic example">
                                                     <Button variant="secondary">Edit</Button>
-                                                    <Button variant="secondary">delete</Button>
+                                                    <Button 
+                                                    onClick={()=>handleSubmitPasswordUpdate({_id:elm._id,isActive:false,method:"delete"})}
+                                                   disabled={loading && elm._id==handleUpdateId}
+                                                   variant="secondary">delete</Button>
                                                 </ButtonGroup>
                                             </div>
                                         </div>
+                                    })  
+                                }
                                     </div>
                                 </>
                             )}
@@ -218,26 +303,37 @@ function Homedashboard() {
                                     <div className="row mt-4">
                                         <div className="col-sm-4 ">
                                             <input
-                                                type="email"
+                                                type="text"
+                                                name="url"
+                                                onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa mt-3 "
                                                 placeholder="please enter your Url"
                                             />
                                             <input
                                                 type="text"
+                                                name="category"
+                                                onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
                                                 placeholder="Enter your category"
                                             />
                                             <input
                                                 type="text"
+                                                name="userName"
+                                                onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
                                                 placeholder="Enter your username"
                                             />
                                             <input
                                                 type="password"
+                                                name="password"
+                                                onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
                                                 placeholder="Enter password username"
                                             />
-                                            <button className="btn logout-btn">save data</button>
+                                            <button className="btn logout-btn"
+                                            onClick={handleSubmitPasswordCreate}
+                                            disabled={loading}
+                                            >save data</button>
                                         </div>
                                         <div className="col-sm-7">
                                             <h1 className="font-fa text-primary">
