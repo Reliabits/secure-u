@@ -31,21 +31,9 @@ function Homedashboard() {
 
     const userData= JSON.parse(localStorage.getItem("userData"))
 
-    const setAuthorizationHeader = (token) => {
-
-        console.log("token in auth :",token)
-        if (token) {
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        } else {
-          delete axios.defaults.headers.common['Authorization'];
-        }
-      };
 
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-
-        setAuthorizationHeader(token);
         function handleResize() {
             if (window.innerWidth < 768) {
                 setSidemblopen(false);
