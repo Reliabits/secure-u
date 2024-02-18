@@ -27,7 +27,7 @@ function Verification() {
          result = await userResetPass({ _id, resetCode:verification_code });
          toast.success(result?.data?.message);
          console.log("result :",result)
-        //  navigate("/login");
+         navigate("/Savepass", { state: { userId: result?.data?.user?._id } });
       }else{
          result = await userVerify({ _id, verification_code });
          toast.success(result?.data?.message);

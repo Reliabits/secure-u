@@ -17,7 +17,6 @@ function Forgot() {
       setLoading(true);
       let result = await userForgotPass({ email });
       toast.success(result?.data?.message);
-      console.log("result :",result)
       navigate("/Verification", { state: { userId: result?.data?.userId ,forgot:true } });
     } catch (error) {
       console.error("Error:", error);

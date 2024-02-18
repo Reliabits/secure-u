@@ -4,7 +4,8 @@ import "../dashboard/dashboard.css";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import { createPassword, listPassword, listPasswordUpdate } from "../../api/api";
+import { createNote, createPassword, listNote, listNoteUpdate, listPassword, listPasswordUpdate } from "../../api/api";
+import axios from "axios";
 
 const lowercaseList = "abcdefghijklmnopqrstuvwxyz";
 const uppercaseList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -24,12 +25,27 @@ function Homedashboard() {
     const [inputData, setInputData] = useState({})
     const [loading, setLoading] = useState(false);
     const [passwordList, setPasswordList] = useState([])
+    const [noteList, setNoteList] = useState([])
     const [handleFetch, setHandleFetch] = useState(false)
     const [handleUpdateId, setHandleUpdateId] = useState("")
 
     const userData= JSON.parse(localStorage.getItem("userData"))
 
+    const setAuthorizationHeader = (token) => {
+
+        console.log("token in auth :",token)
+        if (token) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+          delete axios.defaults.headers.common['Authorization'];
+        }
+      };
+
+
     useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        setAuthorizationHeader(token);
         function handleResize() {
             if (window.innerWidth < 768) {
                 setSidemblopen(false);
@@ -45,7 +61,6 @@ function Homedashboard() {
     }, []);
     // Genrate password
     const copyPassword = () => {
-        // const copiedText = await navigator.clipboard.readText();
         if (genratePassword.length) {
             navigator.clipboard.writeText(genratePassword);
             toast.success("password copied to clipboard!", {
@@ -87,7 +102,7 @@ function Homedashboard() {
     const handleGetPasswordList=async()=>{
           try {
             setLoading(true);
-            let result = await listPassword(userData?._id);
+            let result = await listPassword();
             if(result?.data?.success){
                 setPasswordList(result.data.data)
             }
@@ -99,8 +114,27 @@ function Homedashboard() {
           }
         }
 
+    const handleGetNoteList=async()=>{
+          try {
+            setLoading(true);
+            let result = await listNote();
+            if(result?.data?.success){
+                setNoteList(result.data.data)
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            toast.error(error?.response?.data?.error);
+          } finally {
+            setLoading(false);
+          }
+        }
+
     useEffect(() => {
-        handleGetPasswordList()
+        if(tabs==4){
+            handleGetNoteList()
+        }else{
+            handleGetPasswordList()
+        }
     }, [tabs,handleFetch]);
     
     
@@ -112,7 +146,7 @@ function Homedashboard() {
         }));
     };
     
-    
+
     const handleSubmitPasswordCreate=async()=>{
         if (!inputData.url || !inputData.password || !inputData.category || !inputData.userName) {
             return  toast.error("Please fill all fields" )
@@ -122,6 +156,23 @@ function Homedashboard() {
             let result = await createPassword({...inputData,createdBy:userData._id});
             toast.success(result?.data?.message);
             setTabs(0)
+          } catch (error) {
+            console.error("Error:", error);
+            toast.error(error?.response?.data?.error);
+          } finally {
+            setLoading(false);
+          }
+        }
+
+    const handleSubmitNoteCreate=async()=>{
+        if (!inputData.description || !inputData.details) {
+            return  toast.error("Please fill all fields" )
+        }
+          try {
+            setLoading(true);
+            let result = await createNote({...inputData,createdBy:userData._id});
+            toast.success(result?.data?.message);
+            setTabs(4)
           } catch (error) {
             console.error("Error:", error);
             toast.error(error?.response?.data?.error);
@@ -147,9 +198,38 @@ function Homedashboard() {
             toast.error(error?.response?.data?.error);
           } finally {
             setLoading(false);
+            setHandleUpdateId('')
           }
         }
 
+    const handleSubmitNoteUpdate=async(val)=>{
+          try {
+            setHandleUpdateId(val?._id)
+            setLoading(true);
+            let result = await listNoteUpdate(val);
+            if(val.method=="delete"){
+                toast.success("deleted successfully");
+            }else{
+                toast.success(result?.data?.message);
+            }
+            setHandleFetch((prev)=>!prev)
+          } catch (error) {
+            console.error("Error:", error);
+            toast.error(error?.response?.data?.error);
+          } finally {
+            setLoading(false);
+            setHandleUpdateId('')
+          }
+        }
+
+        // copy text from table function
+
+        const copyText = (val) => {
+            if (val.length) {
+                navigator.clipboard.writeText(val);
+                toast("copied !");
+            }
+        };
 
 
     return (
@@ -265,7 +345,7 @@ function Homedashboard() {
                             {tabs === 0 && (
                                 <>
                                     <div eventKey="first" className="">
-                                      {passwordList.map((elm,index)=>{
+                                      {passwordList.length > 0 ? passwordList.map((elm,index)=>{
                                       return   <div className="row mt-5">
                                             <div className="col-sm-3">
                                              {index==0 &&   <p className="font-fa">Your email</p>}
@@ -277,13 +357,13 @@ function Homedashboard() {
                                             </div>
                                             <div className="col-sm-3">
                                                 <ButtonGroup aria-label="Basic example">
-                                                    <Button variant="secondary">copy email</Button>
-                                                    <Button variant="secondary">copy password</Button>
+                                                    <Button onClick={()=>copyText(elm?.userName)} variant="secondary">copy email</Button>
+                                                    <Button onClick={()=>copyText(elm?.password)} variant="secondary">copy password</Button>
                                                 </ButtonGroup>
                                             </div>
                                             <div className="col-sm-3">
                                                 <ButtonGroup aria-label="Basic example">
-                                                    <Button variant="secondary">Edit</Button>
+                                                    {/* <Button variant="secondary">Edit</Button> */}
                                                     <Button 
                                                     onClick={()=>handleSubmitPasswordUpdate({_id:elm._id,isActive:false,method:"delete"})}
                                                    disabled={loading && elm._id==handleUpdateId}
@@ -291,7 +371,8 @@ function Homedashboard() {
                                                 </ButtonGroup>
                                             </div>
                                         </div>
-                                    })  
+                                    }) :
+                                    <h3>{loading?"loading..":"No Data"}</h3> 
                                 }
                                     </div>
                                 </>
@@ -533,16 +614,20 @@ function Homedashboard() {
                                     <div className="row mt-4">
                                         <div className="col-sm-4 ">
                                             <input
-                                                type="email"
+                                                type="text"
+                                                name="description"
+                                                onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa mt-3 "
                                                 placeholder="please enter your Description"
                                             />
                                             <textarea
                                                 type="textarea"
+                                                name="details"
+                                                onChange={handleChange}
                                                 className="form-control text-area custom-input mb-4 font-fa"
                                                 placeholder="Enter your Notes"
                                             />
-                                            <button className="btn logout-btn">save data</button>
+                                            <button disabled={loading} onClick={handleSubmitNoteCreate} className="btn logout-btn">save data</button>
                                         </div>
                                         <div className="col-sm-7">
                                             <h1 className="font-fa text-primary">
@@ -587,31 +672,25 @@ function Homedashboard() {
                                                 <table className="table custom-table ">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">id</th>
+                                                            <th scope="col">S/No</th>
                                                             <th scope="col"> notes description</th>
                                                             <th scope="col">Notes details</th>
                                                             <th scope="col">action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Some Description</td>
-                                                            <td>Some detailsss</td>
-                                                            <td><button className="btn btn-danger">delete</button></td>
+                                                       {noteList?.length > 0 ?noteList.map((elm,index)=>{
+                                                          return <>
+                                                          <tr>
+                                                            <th scope="row">{index + 1}</th>
+                                                            <td>{elm?.description}</td>
+                                                            <td>{elm?.details}</td>
+                                                            <td><button onClick={()=>handleSubmitNoteUpdate({_id:elm._id,isActive:false,method:"delete"})} disabled={loading && elm._id==handleUpdateId} className="btn btn-danger">delete</button></td>
                                                         </tr>
-                                                        <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">3</th>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                        </tr>
+                                                          </>
+                                                        }) :
+                                                        <h3 className="d-flex justify-content-center">{loading?"loading..":"No Data"}</h3>
+                                                    }
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -10,6 +10,7 @@ import Dashboard from '../dashboard/Homedashboard'
 import Header from '../header/Header';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CheckLogin from './ProtectedRoute';
 function homeRoutes() {
 
 
@@ -28,7 +29,9 @@ function homeRoutes() {
         <Route path='/Forgot' element={<Forgot />} />
         <Route path='/Savepass' element={<Savepass />} />
         <Route path='/Verification' element={<Verification />} />
+        <Route element={<CheckLogin/>}>
         <Route path='/Dashboard/' element={<Dashboard />} />
+        </Route>
       </Routes>
     </>
   )

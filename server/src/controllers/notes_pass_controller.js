@@ -38,8 +38,8 @@ export const passwordGet = async (req, res) => {
   if (req.query._id) {
     filter._id = req.query._id.split(",");
   }
-  if (req.query.createdBy) {
-    filter.createdBy = req.query.createdBy.split(",");
+  if (req.user._id) {
+    filter.createdBy = req.user._id;
   }
   try {
     let result = await Password.find(filter).populate({
@@ -91,8 +91,8 @@ export const noteGet = async (req, res) => {
   if (req.query._id) {
     filter._id = req.query._id.split(",");
   }
-  if (req.query.createdBy) {
-    filter.createdBy = req.query.createdBy.split(",");
+  if (req.user._id) {
+    filter.createdBy = req.user._id;
   }
   try {
     let result = await Note.find(filter).populate({

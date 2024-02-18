@@ -12,7 +12,7 @@ routes.get("/password", protect, passwordGet);
 // notes routes 
 
 routes.post("/note", protect, createNote);
-routes.put("/note",protect, noteUpdate);
+routes.put("/note/:_id",protect, noteUpdate);
 routes.get("/note",protect, noteGet);
 
 

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import "../login/login.css";
 import Loginpic from "../../assets/login.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { userLogin } from "../../api/api";
 import { toast } from "react-toastify";
 function Login() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleChange = (event) => {
     let { name, value } = event.target;
@@ -32,6 +33,7 @@ function Login() {
       toast.success(result?.data?.message);
       localStorage.setItem("userData", JSON.stringify(result?.data?.user));
       localStorage.setItem("token", result?.data?.token);
+      // location.reload();
       navigate("/Dashboard");
     } catch (error) {
       console.error("Error:", error);
