@@ -28,8 +28,9 @@ function Homedashboard() {
     const [noteList, setNoteList] = useState([])
     const [handleFetch, setHandleFetch] = useState(false)
     const [handleUpdateId, setHandleUpdateId] = useState("")
+    const [secondpass, setsecondPass] = useState();
 
-    const userData= JSON.parse(localStorage.getItem("userData"))
+    const userData = JSON.parse(localStorage.getItem("userData"))
 
 
 
@@ -47,6 +48,15 @@ function Homedashboard() {
 
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+    // second pass
+    const secondPasswordgenrate = () => {
+        // Create a random password
+        const randomPassword =
+          Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+      
+        // Set the generated password as state
+        setsecondPass(randomPassword);
+    }
     // Genrate password
     const copyPassword = () => {
         if (genratePassword.length) {
@@ -87,137 +97,138 @@ function Homedashboard() {
         setgenratePassword(temPassword);
     };
 
-    const handleGetPasswordList=async()=>{
-          try {
+
+    const handleGetPasswordList = async () => {
+        try {
             setLoading(true);
             let result = await listPassword();
-            if(result?.data?.success){
+            if (result?.data?.success) {
                 setPasswordList(result.data.data)
             }
-          } catch (error) {
+        } catch (error) {
             console.error("Error:", error);
             toast.error(error?.response?.data?.error);
-          } finally {
+        } finally {
             setLoading(false);
-          }
         }
+    }
 
-    const handleGetNoteList=async()=>{
-          try {
+    const handleGetNoteList = async () => {
+        try {
             setLoading(true);
             let result = await listNote();
-            if(result?.data?.success){
+            if (result?.data?.success) {
                 setNoteList(result.data.data)
             }
-          } catch (error) {
+        } catch (error) {
             console.error("Error:", error);
             toast.error(error?.response?.data?.error);
-          } finally {
+        } finally {
             setLoading(false);
-          }
         }
+    }
 
     useEffect(() => {
-        if(tabs==4){
+        if (tabs == 4) {
             handleGetNoteList()
-        }else{
+        } else {
             handleGetPasswordList()
         }
-    }, [tabs,handleFetch]);
-    
-    
+    }, [tabs, handleFetch]);
+
+
     const handleChange = (event) => {
         let { name, value } = event.target;
         setInputData((prevUserData) => ({
-          ...prevUserData,
-          [name]: value,
+            ...prevUserData,
+            [name]: value,
         }));
     };
-    
 
-    const handleSubmitPasswordCreate=async()=>{
+
+    const handleSubmitPasswordCreate = async () => {
         if (!inputData.url || !inputData.password || !inputData.category || !inputData.userName) {
-            return  toast.error("Please fill all fields" )
+            return toast.error("Please fill all fields")
         }
-          try {
+        try {
             setLoading(true);
-            let result = await createPassword({...inputData,createdBy:userData._id});
+            let result = await createPassword({ ...inputData, createdBy: userData._id });
             toast.success(result?.data?.message);
             setTabs(0)
-          } catch (error) {
+        } catch (error) {
             console.error("Error:", error);
             toast.error(error?.response?.data?.error);
-          } finally {
+        } finally {
             setLoading(false);
-          }
         }
+    }
 
-    const handleSubmitNoteCreate=async()=>{
+    const handleSubmitNoteCreate = async () => {
         if (!inputData.description || !inputData.details) {
-            return  toast.error("Please fill all fields" )
+            return toast.error("Please fill all fields")
         }
-          try {
+        try {
             setLoading(true);
-            let result = await createNote({...inputData,createdBy:userData._id});
+            let result = await createNote({ ...inputData, createdBy: userData._id });
             toast.success(result?.data?.message);
             setTabs(4)
-          } catch (error) {
+        } catch (error) {
             console.error("Error:", error);
             toast.error(error?.response?.data?.error);
-          } finally {
+        } finally {
             setLoading(false);
-          }
         }
+    }
 
 
-    const handleSubmitPasswordUpdate=async(val)=>{
-          try {
+    const handleSubmitPasswordUpdate = async (val) => {
+        try {
             setHandleUpdateId(val?._id)
             setLoading(true);
             let result = await listPasswordUpdate(val);
-            if(val.method=="delete"){
+            if (val.method == "delete") {
                 toast.success("deleted successfully");
-            }else{
+            } else {
                 toast.success(result?.data?.message);
             }
-            setHandleFetch((prev)=>!prev)
-          } catch (error) {
+            setHandleFetch((prev) => !prev)
+        } catch (error) {
             console.error("Error:", error);
             toast.error(error?.response?.data?.error);
-          } finally {
+        } finally {
             setLoading(false);
             setHandleUpdateId('')
-          }
         }
+    }
 
-    const handleSubmitNoteUpdate=async(val)=>{
-          try {
+    const handleSubmitNoteUpdate = async (val) => {
+        try {
             setHandleUpdateId(val?._id)
             setLoading(true);
             let result = await listNoteUpdate(val);
-            if(val.method=="delete"){
+            if (val.method == "delete") {
                 toast.success("deleted successfully");
-            }else{
+            } else {
                 toast.success(result?.data?.message);
             }
-            setHandleFetch((prev)=>!prev)
-          } catch (error) {
+            setHandleFetch((prev) => !prev)
+        } catch (error) {
             console.error("Error:", error);
             toast.error(error?.response?.data?.error);
-          } finally {
+        } finally {
             setLoading(false);
             setHandleUpdateId('')
-          }
         }
+    }
 
-        // copy text from table function
+    // copy text from table function
 
-        const copyText = (val) => {
-            if (val.length) {
-                navigator.clipboard.writeText(val);
-                toast("copied !");
-            }
-        };
+    const copyText = (val) => {
+        if (val.length) {
+            navigator.clipboard.writeText(val);
+            toast("copied !");
+        }
+    };
 
 
     return (
@@ -333,38 +344,38 @@ function Homedashboard() {
                             {tabs === 0 && (
                                 <>
                                     <div eventKey="first" className="">
-                                      {passwordList.length > 0 ? passwordList.map((elm,index)=>{
-                                      return   <div className="row mt-5">
-                                            <div className="col-sm-3">
-                                             {index==0 &&   <p className="font-fa">Your email</p>}
-                                                <p className="font-fa">{elm?.userName}</p>
+                                        {passwordList.length > 0 ? passwordList.map((elm, index) => {
+                                            return <div className="row mt-5">
+                                                <div className="col-sm-3">
+                                                    {index == 0 && <p className="font-fa">Your email</p>}
+                                                    <p className="font-fa">{elm?.userName}</p>
+                                                </div>
+                                                <div className="col-sm-3 ">
+                                                    {index == 0 && <p className="font-fa">Your password</p>}
+                                                    <p className="font-fa">{elm?.password}</p>
+                                                </div>
+                                                <div className="col-sm-3">
+                                                    {index == 0 && <p className="font-fa">Action &copy;</p>}
+                                                    <ButtonGroup aria-label="Basic example" className="mt-0">
+                                                        <Button className="login-btn btn-copy mt-0" onClick={() => copyText(elm?.userName)}>copy email</Button>
+                                                        <Button className="login-btn btn-copy mt-0 " onClick={() => copyText(elm?.password)}>copy password</Button>
+                                                    </ButtonGroup>
+                                                </div>
+                                                <div className="col-sm-3">
+                                                    {index == 0 && <p className="font-fa">Action</p>}
+                                                    <ButtonGroup aria-label="Basic example" className="mt-0">
+
+                                                        {/* <Button variant="secondary">Edit</Button> */}
+                                                        <Button
+                                                            className="login-btn btn-copy mt-0"
+                                                            onClick={() => handleSubmitPasswordUpdate({ _id: elm._id, isActive: false, method: "delete" })}
+                                                            disabled={loading && elm._id == handleUpdateId}>delete</Button>
+                                                    </ButtonGroup>
+                                                </div>
                                             </div>
-                                            <div className="col-sm-3 ">
-                                              {index==0 &&  <p className="font-fa">Your password</p>}
-                                                <p className="font-fa">{elm?.password}</p>
-                                            </div>
-                                            <div className="col-sm-3">
-                                            {index==0 &&   <p className="font-fa">Action &copy;</p>}
-                                                <ButtonGroup aria-label="Basic example" className="mt-0">
-                                                    <Button className="login-btn btn-copy mt-0" onClick={()=>copyText(elm?.userName)}>copy email</Button>
-                                                    <Button className="login-btn btn-copy mt-0 " onClick={()=>copyText(elm?.password)}>copy password</Button>
-                                                </ButtonGroup>
-                                            </div>
-                                            <div className="col-sm-3">
-                                            {index==0 &&   <p className="font-fa">Action</p>}
-                                                <ButtonGroup aria-label="Basic example" className="mt-0">
-                                               
-                                                    {/* <Button variant="secondary">Edit</Button> */}
-                                                    <Button 
-                                                    className="login-btn btn-copy mt-0"
-                                                    onClick={()=>handleSubmitPasswordUpdate({_id:elm._id,isActive:false,method:"delete"})}
-                                                   disabled={loading && elm._id==handleUpdateId}>delete</Button>
-                                                </ButtonGroup>
-                                            </div>
-                                        </div>
-                                    }) :
-                                    <h3 className="text-center mt-3 font-fa text-primary">{loading?"loading..":"No Data avaliable please add some"}</h3> 
-                                }
+                                        }) :
+                                            <h3 className="text-center mt-3 font-fa text-primary">{loading ? "loading.." : "No Data avaliable please add some"}</h3>
+                                        }
                                     </div>
                                 </>
                             )}
@@ -379,15 +390,28 @@ function Homedashboard() {
                                                 name="url"
                                                 onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa mt-3 "
-                                                placeholder="please enter your Url"
+                                                placeholder="enter your Url"
                                             />
                                             <input
+                                                type="text"
+                                                name="url"
+                                                onChange={handleChange}
+                                                className="form-control custom-input mb-4 font-fa mt-3 "
+                                                placeholder="enter your Name"
+                                            />
+                                            {/* <input
                                                 type="text"
                                                 name="category"
                                                 onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
                                                 placeholder="Enter your category"
-                                            />
+                                            /> */}
+                                            <select className="form-select form-control custom-input mb-4 font-fa" aria-label="Default select example">
+                                                <option selected>select category</option>
+                                                <option value="1">Educational </option>
+                                                <option value="2">Social</option>
+                                                <option value="3">Business </option>
+                                            </select>
                                             <input
                                                 type="text"
                                                 name="userName"
@@ -395,16 +419,45 @@ function Homedashboard() {
                                                 className="form-control custom-input mb-4 font-fa"
                                                 placeholder="Enter your username"
                                             />
-                                            <input
+                                               <div className="input-group mb-3">
+                                                <div
+                                                    className="input-group-prepend custom-copy"
+                                                >
+                                                    <span
+                                                        className="input-group-text custom-group"
+                                                        id="basic-addon1"
+                                                        onClick={secondPasswordgenrate}
+                                                    >
+                                                       Genrate
+                                                    </span>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control custom-addpass"
+                                                    value={secondpass}
+                                                    aria-label="Username"
+                                                    placeholder="click on genrate to genrate password"
+                                                    aria-describedby="basic-addon1"
+                                                />
+                                            </div>
+                                            {/* <input
                                                 type="text"
                                                 name="password"
                                                 onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
-                                                placeholder="Enter password username"
+                                                placeholder="Enter password for username"
+                                                value={secondpass}
+                                            /> */}
+                                             <textarea
+                                                type="textarea"
+                                                name="details"
+                                                onChange={handleChange}
+                                                className="form-control custom-input mb-4 font-fa"
+                                                placeholder="Enter your Notes"
                                             />
                                             <button className="btn logout-btn"
-                                            onClick={handleSubmitPasswordCreate}
-                                            disabled={loading}
+                                                onClick={handleSubmitPasswordCreate}
+                                                disabled={loading}
                                             >save data</button>
                                         </div>
                                         <div className="col-sm-7">
@@ -670,18 +723,18 @@ function Homedashboard() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                       {noteList?.length > 0 ?noteList.map((elm,index)=>{
-                                                          return <>
-                                                          <tr >
-                                                            <th scope="row" >{index + 1}</th>
-                                                            <td className="font-fa">{elm?.description}</td>
-                                                            <td className="font-fa">{elm?.details}</td>
-                                                            <td><button className="delete-notes" onClick={()=>handleSubmitNoteUpdate({_id:elm._id,isActive:false,method:"delete"})} disabled={loading && elm._id==handleUpdateId} >delete</button></td>
-                                                        </tr>
-                                                          </>
+                                                        {noteList?.length > 0 ? noteList.map((elm, index) => {
+                                                            return <>
+                                                                <tr >
+                                                                    <th scope="row" >{index + 1}</th>
+                                                                    <td className="font-fa">{elm?.description}</td>
+                                                                    <td className="font-fa">{elm?.details}</td>
+                                                                    <td><button className="delete-notes" onClick={() => handleSubmitNoteUpdate({ _id: elm._id, isActive: false, method: "delete" })} disabled={loading && elm._id == handleUpdateId} >delete</button></td>
+                                                                </tr>
+                                                            </>
                                                         }) :
-                                                        <h3 className="d-flex justify-content-center font-fa text-primary mt-3">{loading?"loading..":"No notes avaliable please add your notes"}</h3>
-                                                    }
+                                                            <h3 className="d-flex justify-content-center font-fa text-primary mt-3">{loading ? "loading.." : "No notes avaliable please add your notes"}</h3>
+                                                        }
                                                     </tbody>
                                                 </table>
                                             </div>
