@@ -344,23 +344,26 @@ function Homedashboard() {
                                                 <p className="font-fa">{elm?.password}</p>
                                             </div>
                                             <div className="col-sm-3">
-                                                <ButtonGroup aria-label="Basic example">
-                                                    <Button onClick={()=>copyText(elm?.userName)} variant="secondary">copy email</Button>
-                                                    <Button onClick={()=>copyText(elm?.password)} variant="secondary">copy password</Button>
+                                            {index==0 &&   <p className="font-fa">Action &copy;</p>}
+                                                <ButtonGroup aria-label="Basic example" className="mt-0">
+                                                    <Button className="login-btn btn-copy mt-0" onClick={()=>copyText(elm?.userName)}>copy email</Button>
+                                                    <Button className="login-btn btn-copy mt-0 " onClick={()=>copyText(elm?.password)}>copy password</Button>
                                                 </ButtonGroup>
                                             </div>
                                             <div className="col-sm-3">
-                                                <ButtonGroup aria-label="Basic example">
+                                            {index==0 &&   <p className="font-fa">Action</p>}
+                                                <ButtonGroup aria-label="Basic example" className="mt-0">
+                                               
                                                     {/* <Button variant="secondary">Edit</Button> */}
                                                     <Button 
+                                                    className="login-btn btn-copy mt-0"
                                                     onClick={()=>handleSubmitPasswordUpdate({_id:elm._id,isActive:false,method:"delete"})}
-                                                   disabled={loading && elm._id==handleUpdateId}
-                                                   variant="secondary">delete</Button>
+                                                   disabled={loading && elm._id==handleUpdateId}>delete</Button>
                                                 </ButtonGroup>
                                             </div>
                                         </div>
                                     }) :
-                                    <h3>{loading?"loading..":"No Data"}</h3> 
+                                    <h3 className="text-center mt-3 font-fa text-primary">{loading?"loading..":"No Data avaliable please add some"}</h3> 
                                 }
                                     </div>
                                 </>
@@ -393,7 +396,7 @@ function Homedashboard() {
                                                 placeholder="Enter your username"
                                             />
                                             <input
-                                                type="password"
+                                                type="text"
                                                 name="password"
                                                 onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
@@ -656,28 +659,28 @@ function Homedashboard() {
                                 <div eventKey="fifth" className="p-4">
                                     <div>
                                         <div className="row">
-                                            <div className="col-sm-12 ">
-                                                <table className="table custom-table ">
+                                            <div className="col-sm-12">
+                                                <table className="table custom-table mt-3 ">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">S/No</th>
-                                                            <th scope="col"> notes description</th>
-                                                            <th scope="col">Notes details</th>
-                                                            <th scope="col">action</th>
+                                                            <th scope="col" className="font-fa">S/No</th>
+                                                            <th scope="col" className="font-fa">description</th>
+                                                            <th scope="col" className="font-fa">Notes details</th>
+                                                            <th scope="col" className="font-fa">action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                        {noteList?.length > 0 ?noteList.map((elm,index)=>{
                                                           return <>
-                                                          <tr>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>{elm?.description}</td>
-                                                            <td>{elm?.details}</td>
-                                                            <td><button onClick={()=>handleSubmitNoteUpdate({_id:elm._id,isActive:false,method:"delete"})} disabled={loading && elm._id==handleUpdateId} className="btn btn-danger">delete</button></td>
+                                                          <tr >
+                                                            <th scope="row" >{index + 1}</th>
+                                                            <td className="font-fa">{elm?.description}</td>
+                                                            <td className="font-fa">{elm?.details}</td>
+                                                            <td><button className="delete-notes" onClick={()=>handleSubmitNoteUpdate({_id:elm._id,isActive:false,method:"delete"})} disabled={loading && elm._id==handleUpdateId} >delete</button></td>
                                                         </tr>
                                                           </>
                                                         }) :
-                                                        <h3 className="d-flex justify-content-center">{loading?"loading..":"No Data"}</h3>
+                                                        <h3 className="d-flex justify-content-center font-fa text-primary mt-3">{loading?"loading..":"No notes avaliable please add your notes"}</h3>
                                                     }
                                                     </tbody>
                                                 </table>

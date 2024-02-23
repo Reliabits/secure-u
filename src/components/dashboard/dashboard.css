@@ -187,6 +187,47 @@ input[type="checkbox"]:checked {
   box-shadow: -19px 19px 38px #ededed,
     19px -19px 38px #ffffff !important;
 }
+.login-btn{
+  margin-top: 13px;
+  width: 132px;
+  box-shadow: 5px 5px 10px rgba(163,177,198,0.5), -5px -5px 10px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  border-radius: 15px;
+  color: black !important;
+  border: none !important;
+ 
+}
+
+.btn-copy{
+  background-color: #f1f1f5 !important;
+}
+.login-btn:hover{
+  width: 132px;
+  border-radius: 7px;
+  box-shadow:
+  -10px -10px 15px rgba(255, 255, 255, 0.5),
+  10px 10px 15px rgba(70, 70, 70, 0.12),
+  inset -6px -6px 6px rgba(255, 255, 255, 0.5),
+  inset 2px 2px 2px rgba(70, 70, 70, 0.12);
+}
+.delete-notes{
+  padding: 5px !important;
+  width: 122px;
+  box-shadow: 5px 5px 10px rgba(163,177,198,0.5), -5px -5px 10px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  color: black !important;
+  border: none !important;
+}
+.delete-notes:hover{
+  width: 122px;
+  border-radius: 7px;
+  color: red !important;
+  box-shadow:
+  -10px -10px 15px rgba(255, 255, 255, 0.5),
+  10px 10px 15px rgba(70, 70, 70, 0.12),
+  inset -6px -6px 6px rgba(255, 255, 255, 0.5),
+  inset 2px 2px 2px rgba(70, 70, 70, 0.12);
+}
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .sidemenu {
     width: 100% !important;
