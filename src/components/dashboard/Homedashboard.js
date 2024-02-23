@@ -407,7 +407,7 @@ function Homedashboard() {
                                                 placeholder="Enter your category"
                                             /> */}
                                             <select className="form-select form-control custom-input mb-4 font-fa" aria-label="Default select example">
-                                                <option selected>select category</option>
+                                                <option selected>select folder</option>
                                                 <option value="1">Educational </option>
                                                 <option value="2">Social</option>
                                                 <option value="3">Business </option>
