@@ -13,6 +13,12 @@ const passwordSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+    name: {
+      type: String,
+    },
+    details: {
+      type: String,
+    },
     createdBy:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
