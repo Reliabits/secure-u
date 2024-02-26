@@ -54,8 +54,11 @@ function Homedashboard() {
         const randomPassword =
             Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
 
-        // Set the generated password as state
-        setsecondPass(randomPassword);
+        setInputData((prevUserData) => ({
+            ...prevUserData,
+            ['password']: randomPassword,
+        }));
+        // setsecondPass(randomPassword);
     }
     // Genrate password
     const copyPassword = () => {
@@ -145,9 +148,15 @@ function Homedashboard() {
         }));
     };
 
+    const handleSelectChange = (event) => {
+        setInputData((prevUserData) => ({
+            ...prevUserData,
+            category: event.target.value,
+        }));
+    };
 
     const handleSubmitPasswordCreate = async () => {
-        if (!inputData.url || !inputData.password || !inputData.category || !inputData.userName) {
+        if (!inputData.url || !inputData.password || !inputData.category || !inputData.userName || !inputData.name || !inputData.details) {
             return toast.error("Please fill all fields")
         }
         try {
@@ -402,18 +411,20 @@ function Homedashboard() {
                                             <div className="col-sm-6">
                                                 <input
                                                     type="text"
-                                                    name="url"
+                                                    name="name"
                                                     onChange={handleChange}
                                                     className="form-control input-addpass  font-fa mt-3 "
                                                     placeholder="enter your Name"
                                                 />
                                             </div>
                                             <div className="col-sm-6 mt-3">
-                                                <select className="form-select form-control input-addpass mt-1 font-fa" aria-label="Default select example">
+                                                <select className="form-select form-control input-addpass mt-1 font-fa" aria-label="Default select example"
+                                                onChange={handleSelectChange}
+                                                >
                                                     <option selected>select folder</option>
-                                                    <option value="1">Educational </option>
-                                                    <option value="2">Social</option>
-                                                    <option value="3">Business </option>
+                                                    <option value="Educational">Educational </option>
+                                                    <option value="Social">Social</option>
+                                                    <option value="Business">Business </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -443,7 +454,9 @@ function Homedashboard() {
                                                     <input
                                                         type="text"
                                                         className="form-control  genrate-icon-pass"
-                                                        value={secondpass}
+                                                        name="password"
+                                                        value={inputData?.password}
+                                                        onChange={handleChange}
                                                         aria-label="Username"
                                                         placeholder="Click icon to genrate random"
                                                         aria-describedby="basic-addon1"
