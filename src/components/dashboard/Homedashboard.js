@@ -6,7 +6,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { createNote, createPassword, listNote, listNoteUpdate, listPassword, listPasswordUpdate } from "../../api/api";
 import axios from "axios";
-
+import { IoReload } from "react-icons/io5";
 const lowercaseList = "abcdefghijklmnopqrstuvwxyz";
 const uppercaseList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const numberList = "0123456789";
@@ -52,8 +52,8 @@ function Homedashboard() {
     const secondPasswordgenrate = () => {
         // Create a random password
         const randomPassword =
-          Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
-      
+            Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+
         // Set the generated password as state
         setsecondPass(randomPassword);
     }
@@ -267,7 +267,7 @@ function Homedashboard() {
                         )}
                         {sidemblopen && (
                             <div variant="pills" className="flex-column mt-5">
-                                <div className="item-nav reset-btn  mx-2 mb-4 py-2">
+                                <div className="item-nav reset-btn  mx-1 mb-3 side-menu-item">
                                     <p
                                         onClick={() => {
                                             setTabs(0);
@@ -277,7 +277,7 @@ function Homedashboard() {
                                         All passwords
                                     </p>
                                 </div>
-                                <div className="item-nav reset-btn  mx-2 mb-4  py-2">
+                                <div className="item-nav reset-btn mx-1 mb-3  side-menu-item">
                                     <p
                                         onClick={() => {
                                             setTabs(1);
@@ -288,7 +288,7 @@ function Homedashboard() {
                                         Add password
                                     </p>
                                 </div>
-                                <div className="item-nav reset-btn  mx-2 mb-4  py-2">
+                                <div className="item-nav reset-btn mx-1 mb-3 side-menu-item">
                                     <p
                                         onClick={() => {
                                             setTabs(2);
@@ -298,7 +298,7 @@ function Homedashboard() {
                                         Genrate Pass
                                     </p>
                                 </div>
-                                <div className="item-nav reset-btn  mx-2 mb-4  py-2">
+                                <div className="item-nav reset-btn mx-1 mb-3 side-menu-item">
                                     <p
                                         onClick={() => {
                                             setTabs(3);
@@ -308,7 +308,7 @@ function Homedashboard() {
                                         Add notes
                                     </p>
                                 </div>
-                                <div className="item-nav reset-btn  mx-2 mb-4  py-2">
+                                <div className="item-nav reset-btn mx-1  mb-3 side-menu-item">
                                     <p
                                         onClick={() => {
                                             setTabs(4);
@@ -322,7 +322,7 @@ function Homedashboard() {
                         )}
                     </div>
                     <div
-                        className={` ${sidemblopen ? " col-10" : "col-12"}  password_tab`}
+                        className={` ${sidemblopen ? " col-10 custo-col10" : "col-12"}  password_tab`}
                     >
                         {sidemblopen ? (
                             <>
@@ -383,8 +383,90 @@ function Homedashboard() {
                             {/* Add password pannel */}
                             {tabs === 1 && (
                                 <div eventKey="second">
-                                    <div className="row mt-4">
-                                        <div className="col-sm-4 ">
+                                    <div className="container">
+                                    <div className="row text-center">
+                                        <h4 className="font-fa pt-3">Add your password</h4>
+                                        </div>
+                                        <div className="row mt-2">
+                                            <div className="col-sm-12">
+                                                <input
+                                                    type="text"
+                                                    name="url"
+                                                    onChange={handleChange}
+                                                    className="form-control input-addpass  font-fa mt-3 "
+                                                    placeholder="enter your Url"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-sm-6">
+                                                <input
+                                                    type="text"
+                                                    name="url"
+                                                    onChange={handleChange}
+                                                    className="form-control input-addpass  font-fa mt-3 "
+                                                    placeholder="enter your Name"
+                                                />
+                                            </div>
+                                            <div className="col-sm-6 mt-3">
+                                                <select className="form-select form-control input-addpass mt-1 font-fa" aria-label="Default select example">
+                                                    <option selected>select folder</option>
+                                                    <option value="1">Educational </option>
+                                                    <option value="2">Social</option>
+                                                    <option value="3">Business </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-sm-6">
+                                                <input
+                                                    type="text"
+                                                    name="userName"
+                                                    onChange={handleChange}
+                                                    className="form-control input-addpass mt-3 font-fa"
+                                                    placeholder="Enter your username"
+                                                />
+                                            </div>
+                                            <div className="col-sm-6 mt-4">
+                                                <div className="input-group">
+                                                    <div
+                                                        className="input-group-prepend "
+                                                    >
+                                                        <span
+                                                            className="input-group-text icon-genrate"
+                                                            id="basic-addon1"
+                                                            onClick={secondPasswordgenrate}
+                                                        >
+                                                            <IoReload />
+                                                        </span>
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control  genrate-icon-pass"
+                                                        value={secondpass}
+                                                        aria-label="Username"
+                                                        placeholder="Click icon to genrate random"
+                                                        aria-describedby="basic-addon1"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-sm-12 mt-3">
+                                                <textarea
+                                                    type="textarea"
+                                                    name="details"
+                                                    onChange={handleChange}
+                                                    className="form-control input-addpass mb-4 font-fa"
+                                                    placeholder="Enter your Notes"
+                                                />
+                                            </div>
+                                        </div>
+                                        <button className="btn logout-btn"
+                                            onClick={handleSubmitPasswordCreate}
+                                            disabled={loading}
+                                        >save data</button>
+                                        {/* <div className="col-sm-4 ">
                                             <input
                                                 type="text"
                                                 name="url"
@@ -399,13 +481,13 @@ function Homedashboard() {
                                                 className="form-control custom-input mb-4 font-fa mt-3 "
                                                 placeholder="enter your Name"
                                             />
-                                            {/* <input
+                                            <input
                                                 type="text"
                                                 name="category"
                                                 onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
                                                 placeholder="Enter your category"
-                                            /> */}
+                                            />
                                             <select className="form-select form-control custom-input mb-4 font-fa" aria-label="Default select example">
                                                 <option selected>select folder</option>
                                                 <option value="1">Educational </option>
@@ -440,14 +522,14 @@ function Homedashboard() {
                                                     aria-describedby="basic-addon1"
                                                 />
                                             </div>
-                                            {/* <input
+                                            <input
                                                 type="text"
                                                 name="password"
                                                 onChange={handleChange}
                                                 className="form-control custom-input mb-4 font-fa"
                                                 placeholder="Enter password for username"
                                                 value={secondpass}
-                                            /> */}
+                                            />
                                              <textarea
                                                 type="textarea"
                                                 name="details"
@@ -459,38 +541,8 @@ function Homedashboard() {
                                                 onClick={handleSubmitPasswordCreate}
                                                 disabled={loading}
                                             >save data</button>
-                                        </div>
-                                        <div className="col-sm-7">
-                                            <h1 className="font-fa text-primary">
-                                                {" "}
-                                                Our Dedication to Caring for You
-                                            </h1>
-                                            <p className="font-fa add-pass-p">
-                                                We understand the significance of user trust in our
-                                                platform, and that's why transparency is a core value in
-                                                our approach to security. We provide users with clear
-                                                and concise information about our encryption practices,
-                                                assuring them that their data is handled with the utmost
-                                                care. Regular security updates and communication
-                                                channels are maintained to keep users informed about the
-                                                latest security measures and best practices, In
-                                                conclusion, the security of personal passwords is a top
-                                                priority in our{" "}
-                                                <span className="font-fa text-primary">Secure-u</span>{" "}
-                                                product. By leveraging modern encryption technology, we
-                                                not only encourage users to adopt strong password
-                                                practices but also provide them with a secure
-                                                environment to store and manage their sensitive data.
-                                                The implementation of robust encryption algorithms,
-                                                adherence to industry standards, and additional security
-                                                features such as 2FA collectively contribute to a
-                                                comprehensive security framework that aims to safeguard
-                                                user information in the ever-evolving digital landscape.
-                                                Our commitment to staying at the forefront of security
-                                                measures reflects our dedication to maintaining user
-                                                trust and ensuring a safe online experience for all{" "}
-                                            </p>
-                                        </div>
+                                        </div> */}
+
                                     </div>
                                 </div>
                             )}
@@ -498,94 +550,98 @@ function Homedashboard() {
                             {/* Genrate password */}
                             {tabs === 2 && (
                                 <div eventKey="third">
-                                    <div className="row mt-5">
-                                        <div className="col-sm-4">
-                                            <div className="input-group mb-3">
-                                                <div
-                                                    className="input-group-prepend custom-copy"
-                                                    onClick={copyPassword}
-                                                >
-                                                    <span
-                                                        className="input-group-text custom-group"
-                                                        id="basic-addon1"
-                                                    >
-                                                        copy
-                                                    </span>
-                                                    <ToastContainer />
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    disabled
-                                                    className="form-control custom-addpass"
-                                                    value={genratePassword}
-                                                    aria-label="Username"
-                                                    aria-describedby="basic-addon1"
-                                                />
-                                            </div>
-                                            <h4 className="font-fa pt-3">Customize your password</h4>
-                                            <span className="mt-3 d-flex">
-                                                {" "}
-                                                <input
-                                                    type="checkbox"
-                                                    checked={lowerCase}
-                                                    onChange={() => setloweCase(!lowerCase)}
-                                                />{" "}
-                                                <p className="font-fa lower-case">
-                                                    Include lower case (a-z)
-                                                </p>
-                                            </span>
-                                            <span className="d-flex">
-                                                {" "}
-                                                <input
-                                                    type="checkbox"
-                                                    checked={upperCase}
-                                                    onChange={() => setupperCase(!upperCase)}
-                                                />{" "}
-                                                <p className="font-fa lower-case">
-                                                    Include upper case (A-Z)
-                                                </p>
-                                            </span>
-                                            <span className="d-flex">
-                                                {" "}
-                                                <input
-                                                    type="checkbox"
-                                                    checked={numbers}
-                                                    onChange={() => setNumbers(!numbers)}
-                                                />{" "}
-                                                <p className="font-fa lower-case">Include number</p>
-                                            </span>
-                                            <span className="d-flex">
-                                                {" "}
-                                                <input
-                                                    type="checkbox"
-                                                    checked={symbols}
-                                                    onChange={() => setSymbols(!symbols)}
-                                                />{" "}
-                                                <p className="font-fa lower-case">Include Symbols</p>
-                                            </span>
-                                            <span className="d-flex">
-                                                {" "}
-                                                <input
-                                                    type="range"
-                                                    min={8}
-                                                    max={40}
-                                                    defaultValue={passwordLength}
-                                                    checked={passwordLength}
-                                                    onChange={(event) =>
-                                                        setpasswordLength(event.currentTarget.value)
-                                                    }
-                                                />{" "}
-                                                &nbsp;{" "}
-                                                <p className="font-fa lower-case">{passwordLength}</p>
-                                            </span>
-                                            <button
-                                                className="btn logout-btn"
-                                                onClick={passwordGenrate}
-                                            >
-                                                Genrate password
-                                            </button>
+                                    <div className="container">
+                                        <div className="row text-center">
+                                        <h4 className="font-fa pt-3">Customize your password</h4>
                                         </div>
-                                        <div className="col-sm-7 text-left">
+                                        <div className="row mt-3">
+                                            <div className="col-sm-12">
+                                             
+                                                <div className="input-group mb-3">
+                                                    <div
+                                                        className="input-group-prepend custom-copy"
+                                                        onClick={copyPassword}
+                                                    >
+                                                        <span
+                                                            className="input-group-text custom-group"
+                                                            id="basic-addon1"
+                                                        >
+                                                            copy
+                                                        </span>
+                                                        <ToastContainer />
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        disabled
+                                                        className="form-control custom-addpass"
+                                                        value={genratePassword}
+                                                        aria-label="Username"
+                                                        aria-describedby="basic-addon1"
+                                                    />
+                                                </div>
+                                                <span className="mt-3 d-flex">
+                                                    {" "}
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={lowerCase}
+                                                        onChange={() => setloweCase(!lowerCase)}
+                                                    />{" "}
+                                                    <p className="font-fa lower-case">
+                                                        Include lower case (a-z)
+                                                    </p>
+                                                </span>
+                                                <span className="d-flex">
+                                                    {" "}
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={upperCase}
+                                                        onChange={() => setupperCase(!upperCase)}
+                                                    />{" "}
+                                                    <p className="font-fa lower-case">
+                                                        Include upper case (A-Z)
+                                                    </p>
+                                                </span>
+                                                <span className="d-flex">
+                                                    {" "}
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={numbers}
+                                                        onChange={() => setNumbers(!numbers)}
+                                                    />{" "}
+                                                    <p className="font-fa lower-case">Include number</p>
+                                                </span>
+                                                <span className="d-flex">
+                                                    {" "}
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={symbols}
+                                                        onChange={() => setSymbols(!symbols)}
+                                                    />{" "}
+                                                    <p className="font-fa lower-case">Include Symbols</p>
+                                                </span>
+                                                <span className="d-flex">
+                                                    {" "}
+                                                    <input
+                                                        type="range"
+                                                        min={8}
+                                                        max={40}
+                                                        defaultValue={passwordLength}
+                                                        checked={passwordLength}
+                                                        onChange={(event) =>
+                                                            setpasswordLength(event.currentTarget.value)
+                                                        }
+                                                    />{" "}
+                                                    &nbsp;{" "}
+                                                    <p className="font-fa lower-case">{passwordLength}</p>
+                                                </span>
+                                                <button
+                                                    className="btn logout-btn"
+                                                    onClick={passwordGenrate}
+                                                >
+                                                    Genrate password
+                                                </button>
+                                            </div>
+                                            {/* <div className="col-sm-7 text-left">
                                             <h1 className="font-fa text-primary">
                                                 {" "}
                                                 A Comprehensive Guide
@@ -649,31 +705,33 @@ function Homedashboard() {
                                                 can have unique, complex passwords for each account
                                                 without the burden of memorization.
                                             </p>
+                                        </div> */}
                                         </div>
                                     </div>
                                 </div>
                             )}
                             {tabs === 3 && (
                                 <div eventKey="forth">
-                                    <div className="row mt-4">
-                                        <div className="col-sm-4 ">
-                                            <input
-                                                type="text"
-                                                name="description"
-                                                onChange={handleChange}
-                                                className="form-control custom-input mb-4 font-fa mt-3 "
-                                                placeholder="please enter your Description"
-                                            />
-                                            <textarea
-                                                type="textarea"
-                                                name="details"
-                                                onChange={handleChange}
-                                                className="form-control text-area custom-input mb-4 font-fa"
-                                                placeholder="Enter your Notes"
-                                            />
-                                            <button disabled={loading} onClick={handleSubmitNoteCreate} className="btn logout-btn">save data</button>
-                                        </div>
-                                        <div className="col-sm-7">
+                                    <div className="container">
+                                        <div className="row mt-4">
+                                            <div className="col-sm-12 ">
+                                                <input
+                                                    type="text"
+                                                    name="description"
+                                                    onChange={handleChange}
+                                                    className="form-control input-addpass  mb-4 font-fa mt-3 "
+                                                    placeholder="please enter your Description"
+                                                />
+                                                <textarea
+                                                    type="textarea"
+                                                    name="details"
+                                                    onChange={handleChange}
+                                                    className="form-control text-area input-addpass  mb-4 font-fa"
+                                                    placeholder="Enter your Notes"
+                                                />
+                                                <button disabled={loading} onClick={handleSubmitNoteCreate} className="btn logout-btn">save data</button>
+                                            </div>
+                                            {/* <div className="col-sm-7">
                                             <h1 className="font-fa text-primary">
                                                 Safeguarding Your Notes with Confidence
                                             </h1>
@@ -704,13 +762,14 @@ function Homedashboard() {
                                                 alone – we simply provide you with a secure platform to
                                                 store them.
                                             </p>
+                                        </div> */}
                                         </div>
                                     </div>
                                 </div>
                             )}
                             {tabs === 4 && (
                                 <div eventKey="fifth" className="p-4">
-                                    <div>
+                                    <div className="container">
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <table className="table custom-table mt-3 ">
